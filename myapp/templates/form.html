@@ -1,0 +1,440 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Mitr:wght@200;300;400;500;600;700&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
+    body {
+        font-family: 'Mitr', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .menu-section {
+        padding: 20px 0;
+        margin: 0;
+        background-color: #fff;
+        border-bottom: 1px solid #eee;
+    }
+
+    .menu-card {
+        width: 340px;
+        margin: 0 auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .menu-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .menu-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .menu-card-body {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .card-title {
+        font-weight: normal;
+        font-family: 'Bebas Neue', cursive;
+    }
+
+    .card-text {
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .btn-add-to-order {
+        background-color: #4b4b4b;
+        border-color: #909290dd;
+        color: white;
+        font-weight: 500;
+        border-radius: 15px;
+        padding: 0 20px;
+        margin-top: 10px;
+    }
+
+    .btn-add-to-order:hover {
+        background-color: transparent;
+        border-color: #4b4b4b;
+        color: #4b4b4b;
+    }
+
+    .empty-order {
+        text-align: center;
+        color: #777;
+        padding: 20px 0;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    .order-section {
+        padding: 60px 0;
+        background-color: #f8f9fa;
+    }
+
+    #order-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .order-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .order-list-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .order-item-details {
+        font-size: 1rem;
+        font-weight: 300;
+        color: #333;
+        font-family: 'Bebas Neue', cursive; 
+    }
+
+    .order-item-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .order-item-actions button {
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .order-item-actions button:hover {
+        background-color: #c82333;
+    }
+
+    #total-price-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        font-size: 1rem;
+        font-weight: 300;
+        padding: 15px;
+        text-align: right;
+        font-family: 'Arial', sans-serif;
+    }
+
+    #order-form button[type="submit"] {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    #empty-order-message {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    }
+
+    .quantity-control button {
+        padding: 0 8px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: rgb(14, 13, 13);
+        border: none;
+        border-radius: 5px;
+    }
+
+    .quantity-control button:hover {
+        background-color: #989a9d;
+    }
+
+    .quantity-display {
+        margin: 0 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        font-family: 'Bebas Neue', cursive;
+    }
+
+    .add-to-order-btn {
+        margin-top: 10px;
+        background-color: #28a745;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .add-to-order-btn:hover {
+        background-color: #218838;
+    }
+    
+    nav .nav-link:hover {
+        color: #ffc107 !important;
+        transform: translateY(-2px);
+    }
+
+    .navbar-brand {
+        font-family: 'Bebas Neue', cursive;
+        font-weight: 900;
+        font-size: 3rem;
+        letter-spacing: 1px;
+    }
+
+    #search-result-section {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 40px;
+        margin: 0 auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
+        width: 90%;
+        max-width: 700px;
+    }
+
+    #search-result-section h2 {
+        color: #343a40;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    #search-result-section p {
+        font-size: 1.2rem;
+        color: #495057;
+        margin-bottom: 15px;
+    }
+
+    #search-result-section .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+
+    .sticky-sidebar {
+        position: sticky;
+        top: 20px;
+        align-self: flex-start;
+        z-index: 100;
+    }
+    
+    .center-screen {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .menu-column {
+        padding-right: 0;
+    }
+    .order-column {
+        padding-left: 0;
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Olivetto</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link text-white" href="/">รายการคำสั่งซื้อ</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/form">บันทึกรายการอาหาร</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="row">
+        <div class="col-lg-9 order-lg-1 menu-column">
+            <div class="menu-section">
+                <h2 class="text-center mb-4">เมนูอาหาร</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for item in menu_items %}
+                    <div class="col">
+                        <div class="card menu-card">
+                            <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }}">
+                        </div>
+                        <div class="menu-info card-body menu-card-body text-center">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">ราคา: {{ item.price|floatformat:2 }} บาท</p>
+                            <div class="quantity-control">
+                                <button onclick="updateQuantity('{{ item.name }}', 'decrease')">-</button>
+                                <span id="quantity-display-{{ item.name }}" class="quantity-display">0</span>
+                                <button onclick="updateQuantity('{{ item.name }}', 'increase')">+</button>
+                            </div>
+                            <button class="btn btn-add-to-order" onclick="addToOrder('{{ item.name }}', '{{ item.price }}')">เพิ่ม</button>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col">
+                        <p class="text-center empty-order">ไม่มีรายการอาหารในขณะนี้</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 order-lg-2 order-column">
+            <div class="p-4 bg-white rounded shadow-sm order-section sticky-sidebar">
+                <h2 class="mb-4">รายการอาหาร</h2>
+                <ul id="order-list" class="list-group mb-3">
+                    <li id="empty-order-message" class="list-group-item empty-order">ยังไม่มีรายการที่เลือก</li>
+                </ul>
+                <div id="total-price-section">
+                    ราคารวม: <strong id="total-price">0.00</strong> บาท
+                </div>
+                <form method="POST" id="order-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="customer_name" class="form-label">เลขที่นั่ง</label>
+                        <input type="text" name="customer_name" class="form-control" id="customer_name" placeholder="กรุณากรอกเลขที่นั่ง" required value="{{ existing_order.customer_name }}" {% if existing_order %}readonly{% endif %}>
+                    </div>
+                    <input type="hidden" name="order_data" id="order-data">
+                    <button type="submit" class="btn btn-success btn-lg w-100">ยืนยันคำสั่งซื้อ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    let order = [];
+    let allOrders = []; 
+
+function updateQuantity(itemName, action) {
+    const display = document.getElementById(`quantity-display-${itemName}`);
+    let quantity = parseInt(display.innerText);
+
+    if (action === 'increase') {
+        quantity++;
+    } else if (action === 'decrease' && quantity > 0) {
+        quantity--;
+    }
+
+    display.innerText = quantity;
+}
+
+function addToOrder(itemName, itemPrice) {
+    const quantityDisplay = document.getElementById(`quantity-display-${itemName}`);
+    let quantity = parseInt(quantityDisplay.innerText);
+
+    if (quantity <= 0) {
+        alert("กรุณาเพิ่มจำนวนก่อนเพิ่มในรายการ");
+        return;
+    }
+
+    const existingItem = order.find(item => item.name === itemName && item.price === parseFloat(itemPrice));
+
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        order.push({ name: itemName, price: parseFloat(itemPrice), quantity: quantity });
+    }
+
+    updateOrderDisplay(); 
+
+    quantityDisplay.innerText = '0';
+}
+
+function removeFromOrder(event) {
+    const itemName = event.target.dataset.name;
+    const indexToRemove = order.findIndex(item => item.name === itemName);
+
+    if (indexToRemove > -1) {
+        order.splice(indexToRemove, 1);
+        updateOrderDisplay(); // Refresh display
+    }
+}
+
+function updateOrderDisplay() {
+    const orderList = document.getElementById('order-list');
+    const totalPriceElement = document.getElementById('total-price');
+    orderList.innerHTML = '';
+    totalPrice = 0;
+
+    if (order.length === 0) {
+        const emptyOrderMessage = document.createElement('li');
+        emptyOrderMessage.id = 'empty-order-message';
+        emptyOrderMessage.classList.add('list-group-item', 'empty-order');
+        emptyOrderMessage.innerText = 'ยังไม่มีรายการอาหารที่เลือก';
+        orderList.appendChild(emptyOrderMessage);
+    } else {
+        order.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('order-list-item');
+            const totalItemPrice = (item.price * item.quantity).toFixed(2);
+            listItem.innerHTML = `
+                <div class="order-item-details">
+                    <div>${item.name}</div>
+                    <div style="font-size: 0.9rem; color: #666;">x ${item.quantity} = ${totalItemPrice} บาท</div>
+                </div>
+                <div class="order-item-actions">
+                    <button class="btn btn-sm btn-danger" data-name="${item.name}" onclick="removeFromOrder(event)">ลบ</button>
+                </div>
+            `;
+            orderList.appendChild(listItem);
+            totalPrice += parseFloat(totalItemPrice);
+        });
+    }
+    totalPriceElement.innerText = totalPrice.toFixed(2);
+    document.getElementById('order-data').value = JSON.stringify(order); // Update hidden input
+}
+
+
+function submitOrder() {
+    if (order.length > 0 && document.getElementById('customer_name').value.trim() !== '') {
+        const orderData = JSON.stringify(order);
+        console.log("Sending order_data:", orderData);
+        document.getElementById('order-data').value = orderData;
+        this.form.submit();
+    } else {
+        alert('กรุณาเลือกรายการอาหารและระบุชื่อลูกค้า');
+    }
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
